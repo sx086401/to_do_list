@@ -2,12 +2,12 @@ import { Card, CardContent, CardHeader, makeStyles, Typography } from '@material
 import React from 'react'
 import CancelIcon from '@material-ui/icons/Cancel'
 import { BackLog } from '../../../model/BackLog'
+import { IconButton } from '@material-ui/core'
 
 const useStyle = makeStyles({
   deleteButton: {
     color: 'red',
     background: 'black',
-    borderRadius: '100%',
     position: 'absolute',
     width: 20,
     height: 20,
@@ -17,7 +17,7 @@ const useStyle = makeStyles({
   card: {
     position: 'relative',
     width: 400,
-    marginTop: 20,
+    margin: 10,
     padding: 10,
     borderRadius: 10,
     background: 'rgb(216, 233, 251)',
@@ -38,7 +38,9 @@ export default function Item(props: Props) {
 
   return (
     <Card className={classes.card} variant="outlined">
-      <CancelIcon className={classes.deleteButton}/>
+      <IconButton className={classes.deleteButton}>
+        <CancelIcon/>
+      </IconButton>
       <CardHeader title={backLog.memo}></CardHeader>
       <CardContent>
         {backLog.address && <Typography variant="body1" component="p">
