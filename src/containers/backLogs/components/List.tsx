@@ -1,6 +1,6 @@
 import { Card, Button, CardActions } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core'
-import React from 'react'
+import React, { useEffect } from 'react'
 import SendIcon from '@material-ui/icons/Send'
 import { BackLog } from '../../../model/BackLog'
 import Item from './Item'
@@ -33,17 +33,22 @@ const useStyle = makeStyles({
 })
 
 interface Props {
-  backLogs: BackLog[]
+  backLogList: BackLog[]
+  onGetBackLogList: () => void
 }
 
 export default function List(props: Props) {
-  const { backLogs } = props
+  const { backLogList, onGetBackLogList } = props
   const classes = useStyle()
+
+  useEffect(() => {
+    onGetBackLogList()
+  }, [onGetBackLogList])
 
   return (
     <div className={classes.root}>
       <Card className={classes.board} variant="outlined">
-        {backLogs.map(backLog => <Item key={backLog.id} backLog={backLog}></Item>)}
+        {backLogList.map(backLog => <Item key={backLog.id} backLog={backLog}></Item>)}
         <CardActions disableSpacing={true} style={{display: 'flex', justifyContent: 'center'}}>
           <input className={classes.input}></input>
           <Button variant="outlined" className={classes.submitButton} endIcon={<SendIcon/>}/>
