@@ -1,5 +1,5 @@
-import { combineReducers } from "redux";
-import backLogReducer, { backLogInitState, backLogState } from "./backLog/backLogReducer";
+import { combineReducers } from 'redux'
+import backLogReducer, { backLogInitState, backLogState } from './backLog/backLogReducer'
 
 export interface StoreState {
   backLog: backLogState

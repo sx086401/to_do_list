@@ -1,7 +1,7 @@
-import { BackLog } from "../../model/BackLog"
+import { BackLog } from '../../model/BackLog'
 
 export const backLogActionTypes = {
-  GET_BACKLOG_LIST: '@GET_LIST',
+  GET_BACKLOG_LIST: '@back_log/GET_LIST',
   GET_BACKLOG_LIST_SUCCESS: '@back_log/GET_LIST_SUCCESS',
 }
 
