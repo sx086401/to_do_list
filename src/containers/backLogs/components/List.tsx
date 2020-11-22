@@ -1,6 +1,6 @@
 import { Card, Button, CardActions } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import SendIcon from '@material-ui/icons/Send'
 import { BackLog } from '../../../model/BackLog'
 import Item from './Item'
@@ -41,7 +41,8 @@ export default function List(props: Props) {
   const classes = useStyle()
   const { backLogList: initBackLogList, onGetBackLogList } = props
   const [backLogList, setBackLogList] = useState<BackLog[]>([])
-  
+  const [input, setInput] = useState<string>('')
+
   useEffect(() => {
     onGetBackLogList()
     // To make refreshing the page reset the list.
@@ -56,15 +57,37 @@ export default function List(props: Props) {
     [backLogList],
   )
 
+  const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
+    const newInput = e.target.value
+    setInput(newInput)
+  }
+
+  const onSubmit = () => {
+    if (input !== '') {
+      const { id: lastBackLogID } = backLogList[backLogList.length - 1]
+      const newIDNumber = parseInt(lastBackLogID.slice(-1)) + 1
+      const strList = input.split('address: ')
+
+      backLogList.push({
+        id: `___AX${newIDNumber}`,
+        memo: strList[0],
+        address: strList[1],
+        createdAt: Date.now()
+      })
+      setInput('')
+    }
+  }
+
   return (
     <div className={classes.root}>
       <Card className={classes.board} variant="outlined">
         {backLogList.map(backLog => <Item key={backLog.id} backLog={backLog} onDelete={onDelete}></Item>)}
         <CardActions disableSpacing={true} style={{display: 'flex', justifyContent: 'center'}}>
-          <input className={classes.input}></input>
-          <Button variant="outlined" className={classes.submitButton} endIcon={<SendIcon/>}/>
+          <input value={input} onChange={onChangeInput} className={classes.input}></input>
+          <Button variant="outlined" onClick={onSubmit} className={classes.submitButton} endIcon={<SendIcon/>}
+          />
         </CardActions>
       </Card>
     </div>
   )
-} 
+}
