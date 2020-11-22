@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, makeStyles, Typography } from '@material-ui/core'
-import React from 'react'
+import React, { useCallback } from 'react'
 import CancelIcon from '@material-ui/icons/Cancel'
 import { BackLog } from '../../../model/BackLog'
 import { IconButton } from '@material-ui/core'
@@ -30,15 +30,22 @@ const useStyle = makeStyles({
 
 interface Props {
   backLog: BackLog
+  onDelete: (backLogID: string) => void
 }
 
 export default function Item(props: Props) {
   const classes = useStyle()
-  const { backLog } = props
+  const { backLog, onDelete } = props
+
+  const onDeleteClick = useCallback(() => {
+    onDelete(backLog.id)
+    },
+    [onDelete, backLog],
+  )
 
   return (
     <Card className={classes.card} variant="outlined">
-      <IconButton className={classes.deleteButton}>
+      <IconButton className={classes.deleteButton} onClick={onDeleteClick}>
         <CancelIcon/>
       </IconButton>
       <CardHeader title={backLog.memo}></CardHeader>

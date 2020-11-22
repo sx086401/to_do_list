@@ -1,6 +1,6 @@
 import { Card, Button, CardActions } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core'
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import SendIcon from '@material-ui/icons/Send'
 import { BackLog } from '../../../model/BackLog'
 import Item from './Item'
@@ -38,17 +38,28 @@ interface Props {
 }
 
 export default function List(props: Props) {
-  const { backLogList, onGetBackLogList } = props
   const classes = useStyle()
-
+  const { backLogList: initBackLogList, onGetBackLogList } = props
+  const [backLogList, setBackLogList] = useState<BackLog[]>([])
+  
   useEffect(() => {
     onGetBackLogList()
-  }, [onGetBackLogList])
+    // To make refreshing the page reset the list.
+    setBackLogList(initBackLogList)
+  }, [onGetBackLogList, initBackLogList])
+
+  const onDelete = useCallback((backLogID: string) => {
+    const index = backLogList.findIndex(backLog => backLog.id === backLogID)
+    backLogList.splice(index, 1)
+    setBackLogList([...backLogList])
+    },
+    [backLogList],
+  )
 
   return (
     <div className={classes.root}>
       <Card className={classes.board} variant="outlined">
-        {backLogList.map(backLog => <Item key={backLog.id} backLog={backLog}></Item>)}
+        {backLogList.map(backLog => <Item key={backLog.id} backLog={backLog} onDelete={onDelete}></Item>)}
         <CardActions disableSpacing={true} style={{display: 'flex', justifyContent: 'center'}}>
           <input className={classes.input}></input>
           <Button variant="outlined" className={classes.submitButton} endIcon={<SendIcon/>}/>
