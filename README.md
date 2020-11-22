@@ -11,6 +11,6 @@ npm start
 
 You can delete the memos or create a memo on it, refreshing the page will reset the list.
 
-Note: If you want to create a memo with `address`, write `address:` in our input, following words will be the address.
+Note: If you want to create a memo with `address`, write `address:` in your input, following words will be the address.
 
 Example: `A new memo address: New Taipei City`
