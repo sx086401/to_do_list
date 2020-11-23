@@ -23,11 +23,11 @@ const backLogs: BackLog[] = [
   }
 ]
 
-export const getBackLogEpic = (action$: ActionsObservable<AnyAction>) => 
+export const getBackLogEpic = (action$: ActionsObservable<AnyAction>) =>
   action$.pipe(
     ofType(backLogActionTypes.GET_BACKLOG_LIST),
     mapTo(getBackLogListSuccessAction(backLogs)),
   )
 
-
-export default [getBackLogEpic]
+const BackLogEpics = [getBackLogEpic]
+export default BackLogEpics
